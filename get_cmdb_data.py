@@ -142,7 +142,7 @@ def create_sw_product(f_row):
     f_valuedict = {'Categorie': f_row['CI_CATEGORIE'],
                    'Versie': f_row['VERSIE']}
     # Create SW Product - Version
-    f_component = ns.create_node(node_label, **f_valuedict)
+    f_component = ns.create_node('Version', **f_valuedict)
     # Link to SW Product Component
     ns.create_relation(f_product_node, 'Versie', f_component)
     # Link to EOL identifiers
@@ -167,7 +167,14 @@ def handle_sw_product(f_row):
         sw_prod_node = create_sw_product(f_row)
         # And remember SW Product for following iterations
         sw_prod_nodes[sw_product] = sw_prod_node
-    return sw_prod_node
+    # Remove attributes that are attached to Product, Producent, Version from SW Product
+    # Attributes: UITDOVEND_DATUM, UITGEDOOFD_DATUM, PRODUCT, PRODUCENT, VERSIE
+    f_row['UITDOVEND_DATUM'] = ''
+    f_row['UITGEDOOFD_DATUM'] = ''
+    for k in ['VERSIE', 'PRODUCENT', 'PRODUCT']:
+        if k in f_row:
+            del f_row[k]
+    return sw_prod_node, f_row
 
 
 if __name__ == "__main__":
@@ -186,33 +193,37 @@ if __name__ == "__main__":
     for row in rows:
         del row["ID"]
         node_label, row = get_component_type(row, ci_type)
+
+        # SW_PROD_INSTALL: Extract Producent - Product - Versie into product_node
         if node_label == 'SW_Prod_Install':
-            component = handle_sw_product(row)
-        else:
-            # Not a SW Product, so default component handling
-            on_location, row = get_location(row)
-            # Check for Producent en Product Nodes
-            if node_label in product_component_types:
-                product_node, row = get_product_node(row)
-            else:
-                product_node = ''   # Set product node to dummy
-            # Remember uitdovend, uitgedoofd EOL dates
-            uitdovend_datum = row['UITDOVEND_DATUM']
-            uitgedoofd_datum = row['UITGEDOOFD_DATUM']
-            del row['UITDOVEND_DATUM']
-            del row['UITGEDOOFD_DATUM']
-            valuedict = {}
-            for attrib in row.keys():
-                if row[attrib]:
-                        valuedict[attrib.lower()] = str(row[attrib])
-            component = ns.create_node(node_label, **valuedict)
-            # Add link to location if location is known.
-            if str(type(on_location)) == "<class 'py2neo.types.Node'>":
-                ns.create_relation(component, 'Location', on_location)
-            # Add link to product node if product is known
-            if str(type(product_node)) == "<class 'py2neo.types.Node'>":
-                ns.create_relation(component, 'Brand', product_node)
-            link_eol(component, uitdovend_datum, uitgedoofd_datum)
+            # component = handle_sw_product(row)
+            product_node, row = handle_sw_product(row)
+
+        # Default component handling
+        on_location, row = get_location(row)
+        # Check for Producent en Product Nodes in System - OS description.
+        if node_label in product_component_types:
+            product_node, row = get_product_node(row)
+        elif node_label != 'SW_Prod_Install':
+            product_node = ''   # Set product node to dummy if not OS or SW Prod Install
+        # Remember uitdovend, uitgedoofd EOL dates
+        # Apparantly keys are not added for empty values in node create.
+        uitdovend_datum = row['UITDOVEND_DATUM']
+        uitgedoofd_datum = row['UITGEDOOFD_DATUM']
+        del row['UITDOVEND_DATUM']
+        del row['UITGEDOOFD_DATUM']
+        valuedict = {}
+        for attrib in row.keys():
+            if row[attrib]:
+                    valuedict[attrib.lower()] = str(row[attrib])
+        component = ns.create_node(node_label, **valuedict)
+        # Add link to location if location is known.
+        if str(type(on_location)) == "<class 'py2neo.types.Node'>":
+            ns.create_relation(component, 'Location', on_location)
+        # Add link to product node if product is known
+        if str(type(product_node)) == "<class 'py2neo.types.Node'>":
+            ns.create_relation(component, 'Brand', product_node)
+        link_eol(component, uitdovend_datum, uitgedoofd_datum)
         # Remember component for Relation in next step
         # noinspection PyUnresolvedReferences
         node_obj[row["CMDB_ID"]] = component
