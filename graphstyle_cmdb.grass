@@ -1,0 +1,164 @@
+node {
+  diameter: 50px;
+  color: #A5ABB6;
+  border-color: #9AA1AC;
+  border-width: 2px;
+  text-color-internal: #FFFFFF;
+  font-size: 10px;
+}
+
+relationship {
+  color: #A5ABB6;
+  shaft-width: 1px;
+  font-size: 8px;
+  padding: 3px;
+  text-color-external: #000000;
+  text-color-internal: #FFFFFF;
+  caption: '<type>';
+}
+
+node.Year {
+  color: #FFD86E;
+  border-color: #EDBA39;
+  text-color-internal: #604A0E;
+  caption: '{year}';
+  diameter: 50px;
+}
+
+node.Month {
+  color: #FFD86E;
+  border-color: #EDBA39;
+  text-color-internal: #604A0E;
+  caption: '{month}';
+  diameter: 20px;
+}
+
+node.Day {
+  color: #FFD86E;
+  border-color: #EDBA39;
+  text-color-internal: #604A0E;
+  caption: '{day}';
+  diameter: 20px;
+}
+
+node.toepassingomgeving {
+  color: #57D96B;
+  border-color: #198229;
+  text-color-internal: #FFFFFF;
+  caption: '{naam}';
+}
+
+node.Product {
+  color: #68BDF6;
+  border-color: #5CA8DB;
+  text-color-internal: #FFFFFF;
+  caption: '{name}';
+}
+
+node.System {
+  color: #3AE8E5;
+  border-color: #1EC9C7;
+  text-color-internal: #FFFFFF;
+  caption: '{naam}';
+}
+
+node.Producent {
+  color: #68BDF6;
+  border-color: #5CA8DB;
+  text-color-internal: #FFFFFF;
+  caption: '{name}';
+}
+
+node.bedrijfstoepassing {
+  color: #6DCE9E;
+  border-color: #60B58B;
+  text-color-internal: #FFFFFF;
+  caption: '{naam}';
+}
+
+relationship.Uitgedoofd {
+  color: #FF756E;
+  border-color: #E06760;
+  text-color-internal: #FFFFFF;
+  shaft-width: 1px;
+}
+
+node.Techn_Platform {
+  color: #DE9BF9;
+  border-color: #BF85D6;
+  text-color-internal: #FFFFFF;
+  caption: '{naam}';
+  diameter: 65px;
+}
+
+node.Storage {
+  color: #FB95AF;
+  border-color: #E0849B;
+  text-color-internal: #FFFFFF;
+  caption: '{eigenaar_entiteit}';
+}
+
+node.Toep_Comp {
+  color: #D0D660;
+  border-color: #B4BA45;
+  text-color-internal: #FFFFFF;
+  caption: '{naam}';
+}
+
+node.SW_Prod_Install {
+  color: #FF756E;
+  border-color: #E06760;
+  text-color-internal: #FFFFFF;
+  caption: '{naam}';
+}
+
+node.Location {
+  color: #FFD86E;
+  border-color: #EDBA39;
+  text-color-internal: #604A0E;
+  caption: '{name}';
+  diameter: 65px;
+}
+
+node.Calendar {
+  color: #A5ABB6;
+  border-color: #9AA1AC;
+  text-color-internal: #FFFFFF;
+  caption: '{name}';
+}
+
+node.Lijn {
+  color: #A5ABB6;
+  border-color: #9AA1AC;
+  text-color-internal: #FFFFFF;
+  caption: '{eigenaar_entiteit}';
+}
+
+node.NetwerkComp {
+  color: #A5ABB6;
+  border-color: #9AA1AC;
+  text-color-internal: #FFFFFF;
+  caption: '{eigenaar_entiteit}';
+}
+
+node.Device {
+  color: #A5ABB6;
+  border-color: #9AA1AC;
+  text-color-internal: #FFFFFF;
+  caption: '{eigenaar_entiteit}';
+}
+
+node.Job {
+  color: #A5ABB6;
+  border-color: #9AA1AC;
+  text-color-internal: #FFFFFF;
+  caption: '{eigenaar_entiteit}';
+}
+
+node.Version {
+  color: #6DCE9E;
+  border-color: #60B58B;
+  text-color-internal: #FFFFFF;
+  caption: '{Versie}';
+  diameter: 50px;
+}
